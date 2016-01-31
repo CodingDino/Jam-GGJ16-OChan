@@ -1,0 +1,16 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public enum TeaType {
+	NONE = -1,
+	FISH = 0,
+	PEACH,
+	CANDY
+}
+
+public class TeaManager : Singleton<TeaManager> {
+
+	public float temperature;
+	public TeaType type = TeaType.NONE;
+
+}
