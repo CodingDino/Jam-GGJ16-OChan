@@ -12,6 +12,45 @@ public class Customer {
 	private const int FULL_MARKS = 2;
 	private const int PARTIAL_MARKS = 1;
 
+	public int GetSection(TeaFeature _feature)
+	{
+		switch (_feature)
+		{
+		case TeaFeature.TEMP :
+			if (temperature < 20)
+				return 0;
+			else if (temperature < 40)
+				return 1;
+			else
+				return 2;
+
+		case TeaFeature.TYPE :
+			return (int)type;
+
+		case TeaFeature.STRENGTH :
+			if (strength < 20)
+				return 0;
+			else if (strength < 40)
+				return 1;
+			else
+				return 2;
+
+		case TeaFeature.CUP :
+			return (int)cup;
+
+		case TeaFeature.SUGAR :
+			if (sugar < 2)
+				return 0;
+			else if (sugar < 4)
+				return 1;
+			else
+				return 2;
+
+		default:
+			return 0;
+		}
+	}
+
 	public int EvalTemp(float _teaTemp)
 	{
 		float diff = Mathf.Abs(_teaTemp - temperature);

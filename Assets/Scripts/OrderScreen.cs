@@ -5,8 +5,10 @@ public class OrderScreen : MonoBehaviour, SubScreen {
 
 	public GameObject arrowObject;
 	public Animator arrowAnimator;
+	public CustomerBody customerBody;
 
 	private bool customerAnimationFinished = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +28,8 @@ public class OrderScreen : MonoBehaviour, SubScreen {
 	public void ScreenViewLost() {}
 	public void ScreenFocusGained() {
 		TeaManager.Reset();
-		// TODO: Set up customer looks to match their needs
+		// Set up customer looks to match their needs
+		customerBody.SetCustomerData(TeaManager.instance.currentCustomer);
 		// TODO: show customer animation
 		customerAnimationFinished = true; // TODO: set this AFTER customer animation finishes.
 	}

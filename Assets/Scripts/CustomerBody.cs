@@ -3,8 +3,15 @@ using System.Collections;
 
 public class CustomerBody : MonoBehaviour {
 
-	Customer m_data;
+	private Customer m_data;
 
+	public SpriteRenderer m_Face;
+	public SpriteRenderer m_Shirt;
+	public SpriteRenderer m_temp;
+
+	public Sprite[] m_Faces;
+	public Sprite[] m_Shirts;
+	public Sprite[] m_Temps;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +26,10 @@ public class CustomerBody : MonoBehaviour {
 	public void SetCustomerData(Customer _data)
 	{
 		m_data = _data;
-		// TODO: Update image to match data
+		// Update image to match data
+		m_Face.sprite = m_Faces[m_data.GetSection(TeaFeature.SUGAR)];
+		m_Shirt.sprite = m_Shirts[m_data.GetSection(TeaFeature.CUP)];
+		m_temp.sprite = m_Temps[m_data.GetSection(TeaFeature.TEMP)];
 	}
 
 	public void Enter()

@@ -13,8 +13,8 @@ public enum TeaType {
 
 public enum CupType {
 	NONE = -1,
-	FISH = 0,
-	PEACH,
+	CAUTION = 0,
+	PI,
 	HEART,
 	//--
 	NUM
