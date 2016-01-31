@@ -21,4 +21,5 @@ public class TeaManager : Singleton<TeaManager> {
 	public TeaType type = TeaType.NONE;
 	public float strength;
 	public CupType cup = CupType.NONE;
+	public int sugar;
 }
