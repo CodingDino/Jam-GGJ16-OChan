@@ -20,6 +20,16 @@ public enum CupType {
 	NUM
 }
 
+public enum TeaFeature {
+	NONE = -1,
+	//--
+	TEMP = 0,
+	TYPE,
+	STRENGTH,
+	CUP,
+	SUGAR
+}
+
 public struct Score {
 	public int temperature;
 	public int type;

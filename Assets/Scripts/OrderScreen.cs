@@ -26,6 +26,7 @@ public class OrderScreen : MonoBehaviour, SubScreen {
 	public void ScreenViewLost() {}
 	public void ScreenFocusGained() {
 		TeaManager.Reset();
+		// TODO: Set up customer looks to match their needs
 		// TODO: show customer animation
 		customerAnimationFinished = true; // TODO: set this AFTER customer animation finishes.
 	}
