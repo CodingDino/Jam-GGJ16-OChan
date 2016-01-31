@@ -5,14 +5,18 @@ public enum TeaType {
 	NONE = -1,
 	FISH = 0,
 	PEACH,
-	CANDY
+	CANDY,
+	//--
+	NUM
 }
 
 public enum CupType {
 	NONE = -1,
 	FISH = 0,
 	PEACH,
-	CANDY
+	CANDY,
+	//--
+	NUM
 }
 
 public class TeaManager : Singleton<TeaManager> {
