@@ -33,12 +33,15 @@ public class KettleButton : MonoBehaviour {
 		buttonAnimator.SetBool("grow", false);
 	}
 
-	void OnMouseUpAsButton()
+	void OnMouseUp()
 	{
-		buttonDown = false;
-		m_burner.enabled = false;
-		buttonAnimator.SetBool("grow", true);
-		nextArrowAnimator.SetBool("loop", true);
+		if(buttonDown)
+		{
+			buttonDown = false;
+			m_burner.enabled = false;
+			buttonAnimator.SetBool("grow", true);
+			nextArrowAnimator.SetBool("loop", true);
+		}
 	}
 
 }

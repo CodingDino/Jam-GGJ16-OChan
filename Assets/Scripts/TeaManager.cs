@@ -12,5 +12,5 @@ public class TeaManager : Singleton<TeaManager> {
 
 	public float temperature;
 	public TeaType type = TeaType.NONE;
-
+	public float strength;
 }
