@@ -9,13 +9,20 @@ public class SugarBowl : MonoBehaviour {
 	public Animator arrowAnimator;
 	public Gauge gauge;
 
+	void Update()
+	{
+		if (ScreenManager.GetViewingState() != GameState.SUGAR)
+			return;
+		
+		arrowAnimator.SetBool("loop", TeaManager.instance.sugar != 0);
+		bowlAnimator.SetBool("loop", TeaManager.instance.sugar == 0);
+		gauge.m_currentValue = TeaManager.instance.sugar;
+	}
+
 	void OnMouseUpAsButton() {
 		++TeaManager.instance.sugar;
 		if (TeaManager.instance.sugar > maxCubes)
 			TeaManager.instance.sugar = maxCubes;
-		gauge.m_currentValue = TeaManager.instance.sugar;
 		cubeAnimator[TeaManager.instance.sugar - 1].SetTrigger("bounce");
-		bowlAnimator.SetBool("loop", false);
-		arrowAnimator.SetBool("loop", true);
 	}
 }

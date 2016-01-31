@@ -3,7 +3,7 @@ using System.Collections;
 
 public class KettleButton : MonoBehaviour {
 
-	private bool buttonDown = false;
+	public bool buttonDown = false;
 
 	public float increaseRate = 1;
 	public float max = 100;
@@ -12,9 +12,11 @@ public class KettleButton : MonoBehaviour {
 	public SpriteRenderer m_burner;
 	public Animator nextArrowAnimator;
 
-
 	void Update()
 	{
+		if (ScreenManager.GetViewingState() != GameState.KETTLE)
+			return;
+
 		if (buttonDown)
 		{
 			float increase = increaseRate * Time.deltaTime;
@@ -23,6 +25,8 @@ public class KettleButton : MonoBehaviour {
 				TeaManager.instance.temperature = max;
 			m_gauge.m_currentValue = TeaManager.instance.temperature;
 		}
+
+		nextArrowAnimator.SetBool("loop", TeaManager.instance.temperature != 0);
 	}
 
 	void OnMouseDown()
@@ -40,7 +44,6 @@ public class KettleButton : MonoBehaviour {
 			buttonDown = false;
 			m_burner.enabled = false;
 			buttonAnimator.SetBool("grow", true);
-			nextArrowAnimator.SetBool("loop", true);
 		}
 	}
 

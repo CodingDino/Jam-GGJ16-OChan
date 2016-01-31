@@ -29,11 +29,22 @@ public class ScreenManager : Singleton<ScreenManager> {
 	public Camera m_camera;
 	public List<Transform> screenPositions = new List<Transform>();
 	public List<Color> screenColours = new List<Color>();
+	public MonoBehaviour[] subScreens;
 	private Transform oldScreen = null;
 	private Vector3 oldScreenTarget;
 
+	bool animating = false;
+
+	public static GameState GetFocusState() { return instance.m_currentState; }
+	public static GameState GetViewingState() { return instance.m_viewingState; }
+
 	public void ArrowButtonPressed()
 	{
+		if (animating)
+			return;
+
+		GameState newState = m_currentState + 1;
+
 		if (m_currentState == m_viewingState)
 		{
 			if (m_currentState == GameState.DRINK)
@@ -42,25 +53,20 @@ public class ScreenManager : Singleton<ScreenManager> {
 
 				if (customersServed < customersPerDay)
 				{
-					m_currentState = GameState.ORDER;
-				}
-				else
-				{
-					++m_currentState;
+					newState = GameState.ORDER;
 				}
 			}
 			else if (m_currentState == GameState.RESULT)
 			{
 				customersServed = 0;
-				m_currentState = GameState.ORDER;
+				newState = GameState.ORDER;
 			}
-			else 
-			{
-				++m_currentState;
-			}
+			ChangeFocusState(newState);
 		}
-
-		ChangeViewingState(m_currentState);
+		else
+		{
+			ChangeViewingState(m_currentState);
+		}
 	}
 
 	public void CustomerButtonPressed()
@@ -68,10 +74,22 @@ public class ScreenManager : Singleton<ScreenManager> {
 		ChangeViewingState(GameState.ORDER, false);
 	}
 
+	public void ChangeFocusState(GameState _newState)
+	{
+		((SubScreen)subScreens[(int)m_currentState]).ScreenFocusLost();
+		((SubScreen)subScreens[(int)_newState]).ScreenFocusGained();
+
+		m_currentState = _newState;
+		ChangeViewingState(m_currentState);
+	}
+
 	public void ChangeViewingState(GameState _newState, bool _fromRight = true)
 	{
 		if (_newState == m_viewingState)
 			return;
+
+		((SubScreen)subScreens[(int)m_viewingState]).ScreenViewLost();
+		((SubScreen)subScreens[(int)_newState]).ScreenViewGained();
 
 		if (screenPositions[(int)_newState] == screenPositions[(int)m_viewingState])
 		{
@@ -84,6 +102,8 @@ public class ScreenManager : Singleton<ScreenManager> {
 		oldScreen = screenPositions[(int)m_viewingState];
 		oldScreenTarget = new Vector3(_fromRight ? -1 : 1, 0, oldScreen.position.z);
 		m_viewingState = _newState;
+
+		animating = true;
 	}
 
 	void Update()
@@ -98,6 +118,7 @@ public class ScreenManager : Singleton<ScreenManager> {
 			if (distanceToTravel >= currentDistance)
 			{
 				distanceToTravel = currentDistance;
+				animating = false;
 			}
 			Vector2 direction = (targetPos - currentPos).normalized;
 			Vector2 newPos = currentPos + direction * distanceToTravel;
@@ -106,7 +127,8 @@ public class ScreenManager : Singleton<ScreenManager> {
 			screenPositions[(int)m_viewingState].position = new Vector3(newPos.x, newPos.y, screenPositions[(int)m_viewingState].position.z);
 
 			// Move old screen out
-			oldScreen.position = oldScreen.position+ (oldScreenTarget - oldScreen.position).normalized * distanceToTravel;
+			if (oldScreen)
+				oldScreen.position = oldScreen.position+ (oldScreenTarget - oldScreen.position).normalized * distanceToTravel;
 
 			// Colour
 			Color currentColour = m_camera.backgroundColor;
@@ -116,6 +138,10 @@ public class ScreenManager : Singleton<ScreenManager> {
 				Mathf.Lerp(currentColour.g,targetColour.g,fractionChange),
 				Mathf.Lerp(currentColour.b,targetColour.b,fractionChange));
 			m_camera.backgroundColor = newColour;
+		}
+		else
+		{
+			animating = false;
 		}
 	}
 

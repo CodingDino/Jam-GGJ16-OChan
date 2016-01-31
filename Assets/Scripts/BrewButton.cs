@@ -10,19 +10,26 @@ public class BrewButton : MonoBehaviour {
 	public Animator buttonAnimator;
 	public Gauge m_gauge;
 	public Animator nextArrowAnimator;
+	public GameObject nextArrowObject;
 	public Animator teaBagAnimator;
 
 
 	void Update()
 	{
+		if (ScreenManager.GetViewingState() != GameState.BREW)
+			return;
+		
 		if (buttonDown)
 		{
 			float increase = increaseRate * Time.deltaTime;
 			TeaManager.instance.strength += increase;
 			if (TeaManager.instance.strength > max)
 				TeaManager.instance.strength = max;
-			m_gauge.m_currentValue = TeaManager.instance.strength;
 		}
+
+		m_gauge.m_currentValue = TeaManager.instance.strength;
+		nextArrowAnimator.SetBool("loop", TeaManager.instance.strength != 0);
+		nextArrowObject.SetActive(TeaManager.instance.strength != 0);
 	}
 
 	void OnMouseDown()
@@ -34,8 +41,10 @@ public class BrewButton : MonoBehaviour {
 
 	void OnMouseUp()
 	{
-		buttonDown = false;
-		nextArrowAnimator.SetBool("loop", true);
-		teaBagAnimator.SetBool("brew", false);
+		if(buttonDown)
+		{
+			buttonDown = false;
+			teaBagAnimator.SetBool("brew", false);
+		}
 	}
 }

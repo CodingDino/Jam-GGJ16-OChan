@@ -22,4 +22,13 @@ public class TeaManager : Singleton<TeaManager> {
 	public float strength;
 	public CupType cup = CupType.NONE;
 	public int sugar;
+
+	public static void Reset()
+	{
+		instance.temperature = 0;
+		instance.type = TeaType.NONE;
+		instance.strength = 0;
+		instance.cup = CupType.NONE;
+		instance.sugar = 0;
+	}
 }
