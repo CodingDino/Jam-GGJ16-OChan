@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class ChosenCup : MonoBehaviour {
 
-	public List<Color> colors;
-	public SpriteRenderer toColor;
+	public List<Sprite> sprites;
+	public SpriteRenderer toSprite;
 	
 	// Update is called once per frame
 	void Update () {
@@ -14,7 +14,7 @@ public class ChosenCup : MonoBehaviour {
 
 		if (hasSelection)
 		{
-			toColor.color = colors[(int)TeaManager.instance.cup];
+			toSprite.sprite = sprites[(int)TeaManager.instance.cup];
 		}
 	
 	}

@@ -13,6 +13,11 @@ public class BrewButton : MonoBehaviour {
 	public GameObject nextArrowObject;
 	public Animator teaBagAnimator;
 
+	public SpriteRenderer teabag;
+	public SpriteRenderer icon;
+
+	public Color[] colors;
+	public Sprite[] sprites;
 
 	void Update()
 	{
@@ -30,6 +35,9 @@ public class BrewButton : MonoBehaviour {
 		m_gauge.m_currentValue = TeaManager.instance.strength;
 		nextArrowAnimator.SetBool("loop", TeaManager.instance.strength != 0);
 		nextArrowObject.SetActive(TeaManager.instance.strength != 0);
+
+		teabag.color = colors[(int)TeaManager.instance.type];
+		icon.sprite = sprites[(int)TeaManager.instance.type];
 	}
 
 	void OnMouseDown()

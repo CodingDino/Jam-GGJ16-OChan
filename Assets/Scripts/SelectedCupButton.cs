@@ -9,7 +9,7 @@ public class SelectedCupButton : MonoBehaviour {
 	public Collider2D buttonCollider;
 	public SpriteRenderer button;
 
-	public List<Color> colors;
+	public List<Sprite> sprites;
 
 	public Animator m_arrowAnimator;
 	public GameObject m_arrowObject;
@@ -33,7 +33,7 @@ public class SelectedCupButton : MonoBehaviour {
 
 		if (hasSelection)
 		{
-			button.color = colors[(int)TeaManager.instance.cup];
+			button.sprite = sprites[(int)TeaManager.instance.cup];
 		}
 
 		m_arrowAnimator.SetBool("loop", hasSelection);
