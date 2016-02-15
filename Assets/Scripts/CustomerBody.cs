@@ -71,12 +71,9 @@ public class CustomerBody : MonoBehaviour {
 	public IEnumerator DrinkTea()
 	{
 		float teaDrinkTime = 2;
+		int score = 0;
 
 		// Drink tea and display score for each stage
-
-		// Cup
-		int score = m_data.EvalCup(TeaManager.instance.cup);
-		yield return StartCoroutine(GiveFeedback(score, TeaFeature.CUP));
 
 		// Temp
 		m_teaAnimator.SetTrigger("drink");
@@ -95,6 +92,12 @@ public class CustomerBody : MonoBehaviour {
 		yield return new WaitForSeconds(teaDrinkTime);
 		score = m_data.EvalStrength(TeaManager.instance.strength);
 		yield return StartCoroutine(GiveFeedback(score, TeaFeature.STRENGTH));
+
+		// Cup
+		m_teaAnimator.SetTrigger("drink");
+		yield return new WaitForSeconds(teaDrinkTime);
+		score = m_data.EvalCup(TeaManager.instance.cup);
+		yield return StartCoroutine(GiveFeedback(score, TeaFeature.CUP));
 
 		// Sugar
 		m_teaAnimator.SetTrigger("drink");
