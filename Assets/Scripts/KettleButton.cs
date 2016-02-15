@@ -23,8 +23,9 @@ public class KettleButton : MonoBehaviour {
 			TeaManager.instance.temperature += increase;
 			if (TeaManager.instance.temperature > max)
 				TeaManager.instance.temperature = max;
-			m_gauge.m_currentValue = TeaManager.instance.temperature;
 		}
+
+		m_gauge.m_currentValue = TeaManager.instance.temperature;
 
 		nextArrowAnimator.SetBool("loop", TeaManager.instance.temperature != 0);
 	}
