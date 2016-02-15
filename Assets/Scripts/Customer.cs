@@ -9,7 +9,7 @@ public class Customer {
 	public CupType cup;
 	public int sugar;
 
-	private const int FULL_MARKS = 2;
+	private const int FULL_MARKS = 3;
 	private const int PARTIAL_MARKS = 1;
 
 	public int GetSection(TeaFeature _feature)

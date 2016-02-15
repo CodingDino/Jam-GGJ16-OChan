@@ -4,6 +4,7 @@ using System.Collections;
 public class OrderScreen : MonoBehaviour, SubScreen {
 
 	public GameObject arrowObject;
+	public GameObject customerObject;
 	public Animator arrowAnimator;
 	public CustomerBody customerBody;
 
@@ -19,19 +20,34 @@ public class OrderScreen : MonoBehaviour, SubScreen {
 	void Update () {
 		if (ScreenManager.GetViewingState() != GameState.ORDER)
 			return;
-		
+
 		arrowObject.SetActive(customerAnimationFinished);
 		arrowAnimator.SetBool("loop", customerAnimationFinished);
 	}
 
-	public void ScreenViewGained() {}
-	public void ScreenViewLost() {}
-	public void ScreenFocusGained() {
-		TeaManager.Reset();
-		// Set up customer looks to match their needs
-		customerBody.SetCustomerData(TeaManager.instance.currentCustomer);
-		// TODO: show customer animation
-		customerAnimationFinished = true; // TODO: set this AFTER customer animation finishes.
+	public void ScreenViewGained() {
+		customerObject.SetActive(false);
 	}
-	public void ScreenFocusLost() {}
+	public void ScreenViewLost() {
+		customerObject.SetActive(true);
+	}
+	public void ScreenFocusGained() {
+		customerAnimationFinished = false;
+		StartCoroutine(CustomerEntrySequence());
+	}
+	public void ScreenFocusLost() {
+	}
+
+	public IEnumerator CustomerEntrySequence()
+	{
+		// Set up customer looks to match their needs
+		yield return new WaitForSeconds(1.5f);
+		TeaManager.Reset();
+		customerBody.SetCustomerData(TeaManager.instance.currentCustomer);
+		yield return StartCoroutine(customerBody.Enter());
+		yield return StartCoroutine(customerBody.PerformGreeting());
+		yield return StartCoroutine(customerBody.DisplaySpeechBubble());
+
+		customerAnimationFinished = true;
+	}
 }
